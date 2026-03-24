@@ -1,23 +1,34 @@
-import { Link } from "react-router-dom";
-import "../css/Sidebar.css";
+import { NavLink } from "react-router-dom";
+import "../css/Sidebar.css"; <h2>Port Manager</h2>
 
 export default function Sidebar() {
   return (
-    <aside className="sidebar">
-      <div className="sidebar-logo">
-        <h2>Port Manager</h2>
-      </div>
+    <div className="sidebar">
+      <h2>Port Manager</h2>
 
-      <nav className="sidebar-nav">
-        <Link to="/dashboard">Tableau de bord</Link>
-        <Link to="/catways">Catways</Link>
-        <Link to="/reservations">Réservations</Link>
-        <Link to="/utilisateurs">Utilisateurs</Link>
-        <a href="#" target="_blank" rel="noreferrer">
-          Documentation API
-        </a>
-        <Link to="/">Déconnexion</Link>
-      </nav>
-    </aside>
+      <NavLink to="/dashboard" className={({ isActive }) => isActive ? "active-link" : ""}>
+        Dashboard
+      </NavLink>
+
+      <NavLink to="/catways" className={({ isActive }) => isActive ? "active-link" : ""}>
+        Catways
+      </NavLink>
+
+      <NavLink to="/reservations" className={({ isActive }) => isActive ? "active-link" : ""}>
+        Réservations
+      </NavLink>
+
+      <NavLink to="/utilisateurs" className={({ isActive }) => isActive ? "active-link" : ""}>
+        utilisateurs
+      </NavLink>
+
+      <NavLink to="/documentation" className={({ isActive }) => isActive ? "active-link" : ""}>
+        Documentation API
+      </NavLink>
+
+      <NavLink to="/" className={({ isActive }) => isActive ? "active-link" : ""}>
+        Déconnexion
+      </NavLink>
+    </div>
   );
 }

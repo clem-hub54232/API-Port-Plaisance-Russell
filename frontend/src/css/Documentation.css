@@ -1,0 +1,105 @@
+.documentation-page {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.documentation-intro {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.documentation-intro h1 {
+  margin: 0 0 10px;
+  font-size: 28px;
+  color: #1f2937;
+}
+
+.documentation-intro p {
+  margin: 0;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.doc-section {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.doc-section h2 {
+  margin: 0 0 20px;
+  font-size: 22px;
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 12px;
+}
+
+.doc-endpoints {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.doc-endpoint-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 18px;
+  background-color: #f9fafb;
+  transition: 0.2s ease;
+}
+
+.doc-endpoint-card:hover {
+  background-color: #f3f4f6;
+}
+
+.doc-endpoint-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.doc-method {
+  min-width: 72px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: white;
+}
+
+.doc-method.get {
+  background-color: #16a34a;
+}
+
+.doc-method.post {
+  background-color: #2563eb;
+}
+
+.doc-method.put {
+  background-color: #d97706;
+}
+
+.doc-method.delete {
+  background-color: #dc2626;
+}
+
+.doc-path {
+  font-size: 15px;
+  color: #1f2937;
+  background-color: #eef2ff;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.doc-description {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.5;
+}

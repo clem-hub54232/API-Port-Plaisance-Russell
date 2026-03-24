@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.1.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^11.0.0"
+  }
+}

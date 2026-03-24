@@ -7,6 +7,9 @@ import Dashboard from './pages/Dashboard';
 import Catways from './pages/Catways';
 import Reservations from './pages/Reservations';
 import Utilisateurs from './pages/Utilisateurs';
+import Documentation from './pages/Documentation';
+
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,6 +24,7 @@ function App() {
           <Route path="catways" element={<Catways />} />
           <Route path="reservations" element={<Reservations />} />
           <Route path="utilisateurs" element={<Utilisateurs />} />
+          <Route path="Documentation" element={<Documentation />} />
         </Routes>
       </main>
 
