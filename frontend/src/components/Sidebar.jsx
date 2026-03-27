@@ -19,7 +19,7 @@ export default function Sidebar() {
       </NavLink>
 
       <NavLink to="/utilisateurs" className={({ isActive }) => isActive ? "active-link" : ""}>
-        utilisateurs
+        Utilisateurs
       </NavLink>
 
       <NavLink to="/documentation" className={({ isActive }) => isActive ? "active-link" : ""}>

@@ -1,11 +1,11 @@
 import "../css/ElementPage.css";
 
-export default function ElementPage({ title, columns, data }) {
+export default function ElementPage({ title, columns, data, onAdd, onDelete, onEdit }) {
   return (
     <div className="element-page">
       <div className="element-header">
         <h1>{title}</h1>
-        <button className="add-btn">Ajouter</button>
+        <button className="add-btn" onClick={onAdd}>Ajouter</button>
       </div>
 
       <table className="element-table">
@@ -25,8 +25,8 @@ export default function ElementPage({ title, columns, data }) {
                 <td key={colIndex}>{item[col.key]}</td>
               ))}
               <td>
-                <button className="action-btn edit">Modifier</button>
-                <button className="action-btn delete">Supprimer</button>
+                <button className="action-btn edit" onClick={() => onEdit(item)}>Modifier</button>
+                <button className="action-btn delete" onClick={() => onDelete(item._id)}>Supprimer</button>
               </td>
             </tr>
           ))}
