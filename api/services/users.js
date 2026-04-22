@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
 
 exports.getById= async (req, res, next) => {
   const id = req.params.id;
@@ -100,6 +101,44 @@ exports.add = async (req, res, next) => {
     console.error('ADD USER ERROR:', error);
     return res.status(500).json({
       message: 'server_error',
+      error: error.message
+    });
+  }
+};
+
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({
+        message: "email_or_password_incorrect"
+      });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        message: "email_or_password_incorrect"
+      });
+    }
+
+    return res.status(200).json({
+      message: "login_success",
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name
+      }
+    });
+
+  } catch (error) {
+    console.error("LOGIN ERROR:", error);
+    return res.status(500).json({
+      message: "server_error",
       error: error.message
     });
   }

@@ -3,6 +3,7 @@ var router = express.Router();
 
 const service = require('../services/users')
 router.get('/', service.getAll);
+router.post('/login', service.login);
 router.get('/:id', service.getById);
 router.post('/', service.add);
 router.delete('/:id', service.delete);
