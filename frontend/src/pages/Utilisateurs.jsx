@@ -2,15 +2,10 @@ import { useState } from "react";
 
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import ElementPage from "../components/ElementPage";
+
+import "../css/ElementPage.css";
 
 export default function Utilisateurs() {
-  const columns = [
-    { label: "Nom", key: "name" },
-    { label: "Prénom", key: "firstname" },
-    { label: "Email", key: "email" },
-  ];
-
   const [users, setUsers] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [mode, setMode] = useState("add");
@@ -193,14 +188,37 @@ export default function Utilisateurs() {
           )}
 
           {users ? (
-            <ElementPage
-              title="Gestion des Utilisateurs"
-              columns={columns}
-              data={users}
-              onAdd={openAddForm}
-              onDelete={deleteUser}
-              onEdit={openEditForm}
-            />
+            <div className="element-page">
+              <div className="element-header">
+                <h1>Utilisateurs</h1>
+                <button className="add-btn" onClick={openAddForm}>Ajouter</button>
+              </div>
+
+              <table className="element-table">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {users.map((user, index) => (
+                    <tr key={user._id}>
+                      <td key={user.name}>{user.name}</td>
+                      <td key={user.firstname}>{user.firstname}</td>
+                      <td key={user.email}>{user.email}</td>
+                      <td>
+                        <button className="action-btn edit" onClick={() => openEditForm(user)}>Modifier</button>
+                        <button className="action-btn delete" onClick={() => deleteUser(user._id)}>Supprimer</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ) : null}
         </div>
       </div>

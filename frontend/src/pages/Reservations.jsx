@@ -1,6 +1,5 @@
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import ElementPage from "../components/ElementPage";
 
 export default function Reservations() {
   const columns = [
@@ -21,7 +20,7 @@ export default function Reservations() {
       <div className="dashboard-main">
         <Navbar title={"Réservations"}/>
         <div className="dashboard-content">
-          <ElementPage title="Gestion des Réservations" columns={columns} data={data} />
+          {/* <ElementPage title="Gestion des Réservations" columns={columns} data={data} /> */}
         </div>
       </div>
     </div>

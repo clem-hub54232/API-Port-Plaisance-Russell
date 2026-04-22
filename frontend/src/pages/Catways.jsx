@@ -1,16 +1,10 @@
 import { useState } from "react";
 
-
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import ElementPage from "../components/ElementPage";
+import "../css/ElementPage.css";
 
 export default function Catways() {
-  const columns = [
-    { label: "Nom", key: "name" },
-    { label: "Prénom", key: "firstname" },
-    { label: "Email", key: "email" },
-  ];
 
   const [catways, setCatways] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -18,10 +12,9 @@ export default function Catways() {
   const [selectedCatwaysId, setselectedCatwaysId] = useState(null);
 
   const [formData, setFormData] = useState({
-    name: "",
-    firstname: "",
-    email: "",
-    password: ""
+    catwayNumber: "",
+    catwayType: "",
+    catwayState: ""
   });
 
   async function loadCatways() {
@@ -38,21 +31,20 @@ export default function Catways() {
     setMode("add");
     setselectedCatwaysId(null);
     setFormData({
-      name: "",
-      firstname: "",
-      email: "",
-      password: ""
+    catwayNumber: "",
+    catwayType: "",
+    catwayState: ""
     });
     setShowForm(true);
   }
 
-  function openEditForm(Catways) {
+  function openEditForm(catways) {
     setMode("edit");
-    setselectedCatwaysId(Catways._id);
+    setselectedCatwaysId(catways._id);
     setFormData({
-      name: Catways.name,
-      firstname: Catways.firstname,
-      email: Catways.email,
+      catwayNumber: catways.catwayNumber,
+      catwayType: catways.catwayType,
+      catwayState: catways.catwayState,
       password: ""
     });
     setShowForm(true);
@@ -112,19 +104,18 @@ export default function Catways() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          name: formData.name,
-          firstname: formData.firstname,
-          email: formData.email
+          catwayNumber: formData.catwayNumber,
+          catwayType: formData.catwayType,
+          email: formData.catwayState
         })
       });
 
       setShowForm(false);
       setselectedCatwaysId(null);
       setFormData({
-        name: "",
-        firstname: "",
-        email: "",
-        password: ""
+        catwayNumber: "",
+        catwayType: "",
+        catwayState: ""
       });
 
       loadCatways();
@@ -137,7 +128,6 @@ export default function Catways() {
     loadCatways();
   }
 
-  console.log("catways", catways)
 
   return (
     <div className="dashboard-container">
@@ -146,6 +136,8 @@ export default function Catways() {
         <Navbar title={"Catways"} />
         <div className="dashboard-content">
           {showForm && (
+
+            {formData},
             <div style={{ marginBottom: "20px", background: "#fff", padding: "20px", borderRadius: "8px" }}>
               <h2>
                 {mode === "add" ? "Ajouter un catway" : "Modifier un catway"}
@@ -196,14 +188,37 @@ export default function Catways() {
           )}
 
           {catways ? (
-            <ElementPage
-              title="Gestion des catways"
-              columns={columns}
-              data={catways}
-              onAdd={openAddForm}
-              onDelete={deleteCatways}
-              onEdit={openEditForm}
-            />
+            <div className="element-page">
+              <div className="element-header">
+                <h1>Catways</h1>
+                <button className="add-btn" onClick={openAddForm}>Ajouter</button>
+              </div>
+
+              <table className="element-table">
+                <thead>
+                  <tr>
+                    <th>Number</th>
+                    <th>Type</th>
+                    <th>State</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {catways.map((catway) => (
+                    <tr key={catway._id}>
+                        <td key={catway._id}>{catway.catwayNumber}</td>
+                        <td key={catway._id}>{catway.catwayType}</td>
+                        <td key={catway._id}>{catway.catwayState}</td>
+                      <td>
+                        <button className="action-btn edit" onClick={() => openEditForm(catway)}>Modifier</button>
+                        <button className="action-btn delete" onClick={() => deleteCatways(catway._id)}>Supprimer</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ) : null}
         </div>
       </div>
