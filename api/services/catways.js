@@ -34,20 +34,87 @@ exports.getAll = async (req, res) => {
 
 exports.add = async (req, res, next) => {
   const temp = {
-    catwayNumber: req.body.catwayNumber,
+    catwayNumber: Number(req.body.catwayNumber),
     catwayType: req.body.catwayType,
     catwayState: req.body.catwayState
   };
-}
 
-//   try {
-//     const catway = await Catway.create(temp);
-//     return res.status(201).json(catway);
-//   } catch (error) {
-//     console.error('ADD CATWAY ERROR:', error);
-//     return res.status(500).json({
-//       message: 'server_error',
-//       error: error.message
-//     });
-//   }
-// };
+  if (!temp.catwayNumber || !temp.catwayType || !temp.catwayState) {
+    return res.status(400).json({
+      message: 'missing_required_fields'
+    });
+  }
+
+  try {
+    const catway = await Catway.create(temp);
+    return res.status(201).json(catway);
+  } catch (error) {
+    console.error('ADD CATWAY ERROR:', error);
+    return res.status(500).json({
+      message: 'server_error',
+      error: error.message
+    });
+  }
+};
+
+exports.delete = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const catway = await Catway.findByIdAndDelete(id);
+
+    if (!catway) {
+      return res.status(404).json({
+        message: 'catway_not_found'
+      });
+    }
+
+    return res.status(200).json({
+      message: 'catway_deleted',
+      catway: catway
+    });
+  } catch (error) {
+    console.error('DELETE CATWAY ERROR:', error);
+    return res.status(500).json({
+      message: 'server_error',
+      error: error.message
+    });
+  }
+};
+
+exports.edit = async (req, res) => {
+  const id = req.params.id;
+
+  const updatedData = {
+    catwayNumber: Number(req.body.catwayNumber),
+    catwayType: req.body.catwayType,
+    catwayState: req.body.catwayState
+  };
+
+  if (!updatedData.catwayNumber || !updatedData.catwayType || !updatedData.catwayState) {
+    return res.status(400).json({
+      message: 'missing_required_fields'
+    });
+  }
+
+  try {
+    const catway = await Catway.findByIdAndUpdate(id, updatedData, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!catway) {
+      return res.status(404).json({
+        message: 'catway_not_found'
+      });
+    }
+
+    return res.status(200).json(catway);
+  } catch (error) {
+    console.error('EDIT CATWAY ERROR:', error);
+    return res.status(500).json({
+      message: 'server_error',
+      error: error.message
+    });
+  }
+};

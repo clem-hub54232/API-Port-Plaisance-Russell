@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
@@ -17,6 +17,10 @@ export default function Catways() {
     catwayState: ""
   });
 
+  useEffect(() => {
+    loadCatways();
+  }, []);
+
   async function loadCatways() {
     try {
       let result = await fetch("http://localhost:3000/catways/");
@@ -31,9 +35,9 @@ export default function Catways() {
     setMode("add");
     setselectedCatwaysId(null);
     setFormData({
-    catwayNumber: "",
-    catwayType: "",
-    catwayState: ""
+      catwayNumber: "",
+      catwayType: "",
+      catwayState: ""
     });
     setShowForm(true);
   }
@@ -44,8 +48,7 @@ export default function Catways() {
     setFormData({
       catwayNumber: catways.catwayNumber,
       catwayType: catways.catwayType,
-      catwayState: catways.catwayState,
-      password: ""
+      catwayState: catways.catwayState
     });
     setShowForm(true);
   }
@@ -59,20 +62,29 @@ export default function Catways() {
 
   async function addCatways() {
     try {
-      await fetch("http://localhost:3000/catways/", {
+      const response = await fetch("http://localhost:3000/catways/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          catwayNumber: Number(formData.catwayNumber),
+          catwayType: formData.catwayType,
+          catwayState: formData.catwayState
+        })
       });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.log("ADD CATWAY ERROR:", error);
+        return;
+      }
 
       setShowForm(false);
       setFormData({
-        name: "",
-        firstname: "",
-        email: "",
-        password: ""
+        catwayNumber: "",
+        catwayType: "",
+        catwayState: ""
       });
 
       loadCatways();
@@ -81,7 +93,7 @@ export default function Catways() {
     }
   }
 
-  async function deleteCatways(email) {
+  async function deleteCatways(id) {
     try {
       await fetch("http://localhost:3000/catways/" + id, {
         method: "DELETE",
@@ -98,17 +110,23 @@ export default function Catways() {
 
   async function editCatways() {
     try {
-      await fetch("http://localhost:3000/Catways/" + selectedCatwaysId, {
+      const response = await fetch("http://localhost:3000/catways/" + selectedCatwaysId, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          catwayNumber: formData.catwayNumber,
+          catwayNumber: Number(formData.catwayNumber),
           catwayType: formData.catwayType,
-          email: formData.catwayState
+          catwayState: formData.catwayState
         })
       });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.log("EDIT CATWAY ERROR:", error);
+        return;
+      }
 
       setShowForm(false);
       setselectedCatwaysId(null);
@@ -124,11 +142,6 @@ export default function Catways() {
     }
   }
 
-  if (!catways) {
-    loadCatways();
-  }
-
-
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -136,8 +149,6 @@ export default function Catways() {
         <Navbar title={"Catways"} />
         <div className="dashboard-content">
           {showForm && (
-
-            {formData},
             <div style={{ marginBottom: "20px", background: "#fff", padding: "20px", borderRadius: "8px" }}>
               <h2>
                 {mode === "add" ? "Ajouter un catway" : "Modifier un catway"}

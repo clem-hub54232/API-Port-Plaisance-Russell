@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 
 // import Header from './component/Header'
 import Auth from "./pages/Auth";
@@ -9,22 +8,30 @@ import Reservations from './pages/Reservations';
 import Utilisateurs from './pages/Utilisateurs';
 import Documentation from './pages/Documentation';
 
+function ProtectedRoute({ children }) {
+  const user = localStorage.getItem("user");
+
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
+
 
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
     <BrowserRouter>
       <main>
         <Routes>
           <Route path="/" element={<Auth />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="catways" element={<Catways />} />
-          <Route path="reservations" element={<Reservations />} />
-          <Route path="utilisateurs" element={<Utilisateurs />} />
-          <Route path="Documentation" element={<Documentation />} />
+          <Route path="documentation" element={<Documentation />} />
+          <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="catways" element={<ProtectedRoute><Catways /></ProtectedRoute>} />
+          <Route path="reservations" element={<ProtectedRoute><Reservations /></ProtectedRoute>} />
+          <Route path="utilisateurs" element={<ProtectedRoute><Utilisateurs /></ProtectedRoute>} />
         </Routes>
       </main>
 

@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import "../css/Dashboard.css";
 
 export default function Dashboard() {
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const reservations = [
     { id: 1, client: "Jean Dupont", catway: "1", boat: "Sea Breeze" },
@@ -22,12 +23,14 @@ export default function Dashboard() {
           <div className="dashboard-cards">
             <div className="card">
               <h3>Utilisateur</h3>
-              <p>Jean Dupont</p>
-              <p>jean@email.com</p>
+              <p>Nom : {user?.name}</p>
+              <p>Prénom : {user?.firstname}</p>
+              <p>Email : {user?.email}</p>
             </div>
           </div>
 
-          <h2>Réservations en cours</h2>
+          <h2>R
+            éservations en cours</h2>
 
           <table>
             <thead>

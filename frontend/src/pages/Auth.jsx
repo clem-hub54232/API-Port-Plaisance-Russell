@@ -10,9 +10,6 @@ export default function Auth() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    console.log("email", email)
-    console.log("password", password)
-
     const handleLogin = async (e) => {
         e.preventDefault();
         setError("");
@@ -32,14 +29,12 @@ export default function Auth() {
                 throw new Error(data.message);
             }
 
-            // stocker token
-            localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
 
             navigate("/dashboard");
 
         } catch (err) {
-            setError("Email ou mot de passe incorrect");
+            setError("Mot de passe ou e-mail incorrect");
         }
     };
     
@@ -72,7 +67,7 @@ export default function Auth() {
 
                 <div className="auth-footer">
                     <p>
-                        API Docs : <a href="#">Voir la documentation</a>
+                        API Docs : <a href="/documentation">Voir la documentation</a>
                     </p>
                 </div>
             </div>

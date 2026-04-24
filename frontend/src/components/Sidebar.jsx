@@ -26,7 +26,7 @@ export default function Sidebar() {
         Documentation API
       </NavLink>
 
-      <NavLink to="/" className={({ isActive }) => isActive ? "active-link" : ""}>
+      <NavLink to="/" onClick={() => localStorage.removeItem("user")} className={({ isActive }) => isActive ? "active-link" : ""}>
         Déconnexion
       </NavLink>
     </div>

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const service = require('../services/catways')
+const service = require('../services/reservation')
 router.get('/', service.getAll);
 router.get('/:id', service.getById);
 router.post('/', service.add);

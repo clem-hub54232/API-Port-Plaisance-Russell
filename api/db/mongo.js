@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Catway = require('../models/catway');
 
 const clientOptions = {
     dbName: 'PortPlaisanceRussell'
@@ -6,13 +7,9 @@ const clientOptions = {
 
 exports.initClientDbConnection = async () => {
     try {
-        /*
-        ATTENTION :
-        Il faut ajouter URL_MONGO dans ton fichier .env
-        URL_MONGO = ta chaîne de connexion MongoDB Atlas
-        */
 
         await mongoose.connect(process.env.URL_MONGO, clientOptions);
+        await Catway.syncIndexes();
 
         console.log('MongoDB connectée');
     } catch (error) {
