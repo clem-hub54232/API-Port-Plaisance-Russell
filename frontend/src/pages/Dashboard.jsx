@@ -5,11 +5,6 @@ import "../css/Dashboard.css";
 export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const reservations = [
-    { id: 1, client: "Jean Dupont", catway: "1", boat: "Sea Breeze" },
-    { id: 2, client: "Marie Martin", catway: "3", boat: "Ocean Pearl" },
-  ];
-
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -29,10 +24,9 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <h2>R
-            éservations en cours</h2>
+          {/* <h2>Réservations en cours</h2> */}
 
-          <table>
+          {/* <table>
             <thead>
               <tr>
                 <th>ID</th>
@@ -52,7 +46,7 @@ export default function Dashboard() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
         </div>
       </div>
     </div>
