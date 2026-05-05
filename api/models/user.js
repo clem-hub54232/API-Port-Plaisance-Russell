@@ -23,7 +23,8 @@ const UserSchema = new Schema(
     password: {
       type: String,
       trim: true,
-      required: [true, "Le mot de passe est requis"]
+      required: [true, "Le mot de passe est requis"],
+      select: false
     }
   },
   { timestamps: true }

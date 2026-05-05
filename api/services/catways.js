@@ -1,7 +1,16 @@
 const Catway = require('../models/catway');
+const mongoose = require('mongoose');
+
+function isValidCatwayId(id) {
+  return mongoose.Types.ObjectId.isValid(id);
+}
 
 exports.getById = async (req, res, next) => {
   const id = req.params.id;
+
+  if (!isValidCatwayId(id)) {
+    return res.status(400).json({ message: 'invalid_catway_id' });
+  }
 
   try {
     const catway = await Catway.findById(id);
@@ -13,10 +22,7 @@ exports.getById = async (req, res, next) => {
     return res.status(404).json('catway_not_found');
   } catch (error) {
     console.error('GET CATWAY ERROR:', error);
-    return res.status(500).json({
-      message: 'server_error',
-      error: error.message
-    });
+    return res.status(500).json({ message: 'server_error' });
   }
 };
 
@@ -25,10 +31,7 @@ exports.getAll = async (req, res) => {
     const catways = await Catway.find();
     return res.status(200).json(catways);
   } catch (error) {
-    return res.status(500).json({
-      message: "server_error",
-      error: error.message
-    });
+    return res.status(500).json({ message: "server_error" });
   }
 };
 
@@ -50,15 +53,16 @@ exports.add = async (req, res, next) => {
     return res.status(201).json(catway);
   } catch (error) {
     console.error('ADD CATWAY ERROR:', error);
-    return res.status(500).json({
-      message: 'server_error',
-      error: error.message
-    });
+    return res.status(500).json({ message: 'server_error' });
   }
 };
 
 exports.delete = async (req, res) => {
   const id = req.params.id;
+
+  if (!isValidCatwayId(id)) {
+    return res.status(400).json({ message: 'invalid_catway_id' });
+  }
 
   try {
     const catway = await Catway.findByIdAndDelete(id);
@@ -75,15 +79,16 @@ exports.delete = async (req, res) => {
     });
   } catch (error) {
     console.error('DELETE CATWAY ERROR:', error);
-    return res.status(500).json({
-      message: 'server_error',
-      error: error.message
-    });
+    return res.status(500).json({ message: 'server_error' });
   }
 };
 
 exports.edit = async (req, res) => {
   const id = req.params.id;
+
+  if (!isValidCatwayId(id)) {
+    return res.status(400).json({ message: 'invalid_catway_id' });
+  }
 
   const updatedData = {
     catwayNumber: Number(req.body.catwayNumber),
@@ -112,9 +117,6 @@ exports.edit = async (req, res) => {
     return res.status(200).json(catway);
   } catch (error) {
     console.error('EDIT CATWAY ERROR:', error);
-    return res.status(500).json({
-      message: 'server_error',
-      error: error.message
-    });
+    return res.status(500).json({ message: 'server_error' });
   }
 };

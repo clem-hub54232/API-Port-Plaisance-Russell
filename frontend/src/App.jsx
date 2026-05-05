@@ -7,11 +7,13 @@ import Catways from './pages/Catways';
 import Reservations from './pages/Reservations';
 import Utilisateurs from './pages/Utilisateurs';
 import Documentation from './pages/Documentation';
+import { getAuthToken } from "./api";
 
 function ProtectedRoute({ children }) {
   const user = localStorage.getItem("user");
+  const token = getAuthToken();
 
-  if (!user) {
+  if (!user || !token) {
     return <Navigate to="/" replace />;
   }
 

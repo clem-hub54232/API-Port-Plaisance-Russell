@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import "../css/ElementPage.css";
+import { apiFetch } from "../api";
 
 export default function Reservation() {
 
@@ -20,19 +21,20 @@ export default function Reservation() {
 
   });
 
-  useEffect(() => {
-    loadReservation();
-  }, []);
-
   async function loadReservation() {
     try {
-      let result = await fetch("http://localhost:3000/reservations/");
+      let result = await apiFetch("/reservations/");
       let data = await result.json();
       setReservation(data);
     } catch (e) {
       console.log(e);
     }
   }
+
+  useEffect(() => {
+    const timer = setTimeout(loadReservation, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   function openAddForm() {
     setMode("add");
@@ -71,7 +73,7 @@ export default function Reservation() {
 
   async function addReservation() {
     try {
-      const response = await fetch("http://localhost:3000/reservations/", {
+      const response = await apiFetch("/reservations/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -110,7 +112,7 @@ export default function Reservation() {
 
   async function deleteReservation(id) {
     try {
-      await fetch("http://localhost:3000/reservations/" + id, {
+      await apiFetch("/reservations/" + id, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json"
@@ -125,7 +127,7 @@ export default function Reservation() {
 
   async function editReservation() {
     try {
-      const response = await fetch("http://localhost:3000/reservations/" + selectedReservationId, {
+      const response = await apiFetch("/reservations/" + selectedReservationId, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

@@ -24,10 +24,7 @@ exports.getById = async (req, res, next) => {
     return res.status(404).json('reservation_not_found');
   } catch (error) {
     console.error('GET RESERVATION ERROR:', error);
-    return res.status(500).json({
-      message: 'server_error',
-      error: error.message
-    });
+    return res.status(500).json({ message: 'server_error' });
   }
 };
 
@@ -36,10 +33,7 @@ exports.getAll = async (req, res) => {
     const reservation = await Reservation.find();
     return res.status(200).json(reservation);
   } catch (error) {
-    return res.status(500).json({
-      message: "server_error",
-      error: error.message
-    });
+    return res.status(500).json({ message: "server_error" });
   }
 };
 
@@ -63,10 +57,7 @@ exports.add = async (req, res, next) => {
     return res.status(201).json(reservation);
   } catch (error) {
     console.error('ADD RESERVATION ERROR:', error);
-    return res.status(500).json({
-      message: 'server_error',
-      error: error.message
-    });
+    return res.status(500).json({ message: 'server_error' });
   }
 };
 
@@ -95,10 +86,7 @@ exports.delete = async (req, res) => {
     });
   } catch (error) {
     console.error('DELETE RESERVATION ERROR:', error);
-    return res.status(500).json({
-      message: 'server_error',
-      error: error.message
-    });
+    return res.status(500).json({ message: 'server_error' });
   }
 };
 
@@ -141,9 +129,6 @@ exports.edit = async (req, res) => {
     return res.status(200).json(reservation);
   } catch (error) {
     console.error('EDIT RESERVATION ERROR:', error);
-    return res.status(500).json({
-      message: 'server_error',
-      error: error.message
-    });
+    return res.status(500).json({ message: 'server_error' });
   }
 };

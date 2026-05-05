@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import "../css/Sidebar.css"; <h2>Port Manager</h2>
+import { clearSession } from "../api";
+import "../css/Sidebar.css";
 
 export default function Sidebar() {
   return (
@@ -15,7 +16,7 @@ export default function Sidebar() {
       </NavLink>
 
       <NavLink to="/reservations" className={({ isActive }) => isActive ? "active-link" : ""}>
-        Réservations
+        Reservations
       </NavLink>
 
       <NavLink to="/utilisateurs" className={({ isActive }) => isActive ? "active-link" : ""}>
@@ -26,8 +27,8 @@ export default function Sidebar() {
         Documentation API
       </NavLink>
 
-      <NavLink to="/" onClick={() => localStorage.removeItem("user")} className={({ isActive }) => isActive ? "active-link" : ""}>
-        Déconnexion
+      <NavLink to="/" onClick={clearSession} className={({ isActive }) => isActive ? "active-link" : ""}>
+        Deconnexion
       </NavLink>
     </div>
   );

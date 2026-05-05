@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
+import { apiFetch } from "../api";
 
 import "../css/ElementPage.css";
 
@@ -20,13 +21,18 @@ export default function Utilisateurs() {
 
   async function loadUsers() {
     try {
-      let result = await fetch("http://localhost:3000/users/");
+      let result = await apiFetch("/users/");
       let data = await result.json();
       setUsers(data);
     } catch (e) {
       console.log(e);
     }
   }
+
+  useEffect(() => {
+    const timer = setTimeout(loadUsers, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   function openAddForm() {
     setMode("add");
@@ -61,7 +67,7 @@ export default function Utilisateurs() {
 
   async function addUser() {
     try {
-      await fetch("http://localhost:3000/users/", {
+      await apiFetch("/users/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -85,7 +91,7 @@ export default function Utilisateurs() {
 
   async function deleteUser(email) {
     try {
-      await fetch("http://localhost:3000/users/" + email, {
+      await apiFetch("/users/" + email, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json"
@@ -100,7 +106,7 @@ export default function Utilisateurs() {
 
   async function editUser() {
     try {
-      await fetch("http://localhost:3000/users/" + selectedUserId, {
+      await apiFetch("/users/" + selectedUserId, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
@@ -125,10 +131,6 @@ export default function Utilisateurs() {
     } catch (e) {
       console.log(e);
     }
-  }
-
-  if (!users) {
-    loadUsers();
   }
 
   return (
@@ -205,7 +207,7 @@ export default function Utilisateurs() {
                 </thead>
 
                 <tbody>
-                  {users.map((user, index) => (
+                  {users.map((user) => (
                     <tr key={user._id}>
                       <td key={user.name}>{user.name}</td>
                       <td key={user.firstname}>{user.firstname}</td>

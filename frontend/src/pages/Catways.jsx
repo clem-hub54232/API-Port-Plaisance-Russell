@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import "../css/ElementPage.css";
+import { apiFetch } from "../api";
 
 export default function Catways() {
 
@@ -17,13 +18,9 @@ export default function Catways() {
     catwayState: ""
   });
 
-  useEffect(() => {
-    loadCatways();
-  }, []);
-
   async function loadCatways() {
     try {
-      let result = await fetch("http://localhost:3000/catways/");
+      let result = await apiFetch("/catways/");
       let data = await result.json();
       setCatways(data);
     } catch (e) {
@@ -41,6 +38,11 @@ export default function Catways() {
     });
     setShowForm(true);
   }
+
+  useEffect(() => {
+    const timer = setTimeout(loadCatways, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   function openEditForm(catways) {
     setMode("edit");
@@ -62,7 +64,7 @@ export default function Catways() {
 
   async function addCatways() {
     try {
-      const response = await fetch("http://localhost:3000/catways/", {
+      const response = await apiFetch("/catways/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -95,7 +97,7 @@ export default function Catways() {
 
   async function deleteCatways(id) {
     try {
-      await fetch("http://localhost:3000/catways/" + id, {
+      await apiFetch("/catways/" + id, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json"
@@ -110,7 +112,7 @@ export default function Catways() {
 
   async function editCatways() {
     try {
-      const response = await fetch("http://localhost:3000/catways/" + selectedCatwaysId, {
+      const response = await apiFetch("/catways/" + selectedCatwaysId, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"

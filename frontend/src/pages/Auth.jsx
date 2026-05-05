@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "../css/Auth.css";
+import { API_URL } from "../api";
 
 export default function Auth() {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function Auth() {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:3000/users/login", {
+            const response = await fetch(`${API_URL}/users/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -30,10 +31,11 @@ export default function Auth() {
             }
 
             localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("token", data.token);
 
             navigate("/dashboard");
 
-        } catch (err) {
+        } catch {
             setError("Mot de passe ou e-mail incorrect");
         }
     };

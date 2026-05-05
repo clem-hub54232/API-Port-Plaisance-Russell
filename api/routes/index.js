@@ -4,6 +4,7 @@ var router = express.Router();
 const userRoute = require('./users')
 const catwayRoute = require('./catways')
 const reservationRoute = require('./reservation')
+const { requireAuth } = require('../middlewares/auth');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -16,7 +17,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.use('/users', userRoute);
-router.use('/catways', catwayRoute);
-router.use('/reservations', reservationRoute);
+router.use('/catways', requireAuth, catwayRoute);
+router.use('/reservations', requireAuth, reservationRoute);
 
 module.exports = router;
